@@ -1,5 +1,7 @@
 <!-- Détails d'une commande -->
 <div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+
+
     <!-- Messages de succès/erreur -->
     <?php if (isset($message) && $message): ?>
         <div style="padding: 15px; margin-bottom: 20px; border-radius: 4px; 
@@ -18,7 +20,6 @@
         </div>
     <?php else: ?>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2>Détails de la commande #<?= htmlspecialchars($order['id']) ?></h2>
             <a href="/orders?user_id=<?= htmlspecialchars($order['user_id']) ?>" style="padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">
                 ← Retour à mes commandes
             </a>

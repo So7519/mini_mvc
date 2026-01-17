@@ -8,6 +8,8 @@
         </div>
     <?php else: ?>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+
+
             <!-- Image du produit -->
             <div>
                 <?php if (!empty($product['image_url'])): ?>
@@ -24,6 +26,7 @@
                 <?php endif; ?>
             </div>
             
+
             <!-- Informations du produit -->
             <div>
                 <h1 style="margin: 0 0 20px 0; color: #333; font-size: 32px;">
@@ -59,6 +62,7 @@
                         </p>
                     </div>
                 <?php endif; ?>
+                
                 
                 <!-- Formulaire d'ajout au panier -->
                 <?php if ($product['stock'] > 0): ?>
