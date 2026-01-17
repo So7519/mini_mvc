@@ -1,0 +1,181 @@
+.profile-container {
+    max-width: 480px;
+    margin: 70px auto;
+    padding: 0 20px;
+}
+
+/* En-tête du profil */
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.profile-header h1 {
+    font-size: 32px;
+    margin: 0 0 10px 0;
+    color: #001f3f;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.profile-header p {
+    font-size: 14px;
+    color: #5a5f66;
+    margin: 0;
+}
+
+/* Conteneur formulaire */
+.form-container {
+    padding: 40px 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 31, 63, 0.12);
+    border: 1px solid #e8ecf1;
+    background: white;
+}
+
+/* Formulaire */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Groupe de formulaire */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    display: block;
+    color: #001f3f;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d4dae0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.form-group input::placeholder {
+    color: #8a8f99;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #DA291C;
+    box-shadow: 0 0 0 3px rgba(218, 41, 28, 0.08);
+}
+
+/* Bouton */
+.submit-btn {
+    padding: 12px;
+    background: #DA291C;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all 0.2s;
+    margin-top: 8px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(218, 41, 28, 0.2);
+}
+
+.submit-btn:hover {
+    background: #c01815;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+}
+
+/* Lien inscription/connexion */
+.auth-link-container {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #e8ecf1;
+}
+
+.auth-link-container p {
+    color: #5a5f66;
+    font-size: 14px;
+    margin: 0;
+}
+
+.auth-link {
+    color: #DA291C;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-bottom: 1px solid transparent;
+    display: inline;
+}
+
+.auth-link:hover {
+    border-bottom-color: #DA291C;
+}
+
+/* Retour accueil */
+.back-link {
+    text-align: center;
+    margin-top: 32px;
+}
+
+.back-link a {
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+    display: inline-block;
+    color: #001f3f;
+    font-weight: 600;
+}
+
+.back-link.login a {
+    color: #667eea;
+}
+
+.back-link.login a:hover {
+    color: #764ba2;
+}
+
+.back-link.register a {
+    color: #fa1b39;
+}
+
+.back-link.register a:hover {
+    color: #0a0091;
+}
+
+/* Alertes */
+.alert {
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    display: block;
+}
+
+.alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    display: block;
+}

@@ -92,3 +92,5 @@ INSERT INTO categorie (nom, description) VALUES
 ('Maison & Jardin', 'Articles pour la maison et le jardin')
 ON DUPLICATE KEY UPDATE nom=nom;
 
+-- Ajout colonne password pour authentification
+ALTER TABLE user ADD COLUMN password VARCHAR(255) NULL;

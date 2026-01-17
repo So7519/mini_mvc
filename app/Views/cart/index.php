@@ -1,167 +1,510 @@
 <!-- Vue du panier -->
-<div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+<style>
+    .cart-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 50px 40px;
+    }
+
+    .cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        border-bottom: 3px solid #DA291C;
+        padding-bottom: 20px;
+    }
+
+    .cart-header h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #001f3f;
+        margin: 0;
+    }
+
+    .cart-header a {
+        padding: 12px 28px;
+        background: #001f3f;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    .cart-header a:hover {
+        background: #003570;
+    }
+
+    .alert {
+        padding: 16px;
+        margin-bottom: 28px;
+        border-radius: 8px;
+        border-left: 4px solid;
+        display: none;
+    }
+
+    .alert.show {
+        display: block;
+    }
+
+    .alert.success {
+        background: rgba(34, 139, 34, 0.08);
+        color: #228B22;
+        border-left-color: #228B22;
+    }
+
+    .alert.error {
+        background: rgba(218, 41, 28, 0.08);
+        color: #DA291C;
+        border-left-color: #DA291C;
+    }
+
+    .cart-empty {
+        text-align: center;
+        padding: 80px 50px;
+        background: #f8f9fb;
+        border-radius: 12px;
+        border: 1px solid #e8ecf1;
+    }
+
+    .cart-empty h3 {
+        color: #001f3f;
+        font-size: 24px;
+        margin: 0 0 12px 0;
+    }
+
+    .cart-empty p {
+        color: #5a6f7f;
+        font-size: 15px;
+        margin: 0 0 28px 0;
+    }
+
+    .cart-empty a {
+        display: inline-block;
+        padding: 14px 32px;
+        background: #DA291C;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 700;
+        transition: all 0.25s;
+    }
+
+    .cart-empty a:hover {
+        background: #c01815;
+    }
+
+    .cart-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 32px;
+    }
+
+    .cart-items-section h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #001f3f;
+        margin: 0 0 24px 0;
+    }
+
+    .cart-item {
+        border: 1px solid #e8ecf1;
+        border-radius: 12px;
+        padding: 20px;
+        background: white;
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.2s;
+    }
+
+    .cart-item:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .cart-item-image {
+        width: 120px;
+        height: 120px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #f8f9fb 0%, #eef1f5 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .cart-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .cart-item-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cart-item-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #001f3f;
+        margin: 0 0 8px 0;
+    }
+
+    .cart-item-title a {
+        color: #001f3f;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .cart-item-title a:hover {
+        color: #DA291C;
+    }
+
+    .cart-item-category {
+        font-size: 12px;
+        color: #5a6f7f;
+        margin-bottom: 8px;
+    }
+
+    .cart-item-price {
+        font-size: 24px;
+        font-weight: 700;
+        color: #DA291C;
+        margin-bottom: 16px;
+    }
+
+    .cart-item-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .quantity-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .quantity-form label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #001f3f;
+    }
+
+    .quantity-form input {
+        width: 60px;
+        padding: 8px;
+        border: 1px solid #d4dae0;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .quantity-form button {
+        padding: 8px 16px;
+        background: #001f3f;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .quantity-form button:hover {
+        background: #003570;
+    }
+
+    .remove-form button {
+        padding: 8px 16px;
+        background: #DA291C;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .remove-form button:hover {
+        background: #c01815;
+    }
+
+    .cart-item-subtotal {
+        margin-top: 12px;
+        font-size: 13px;
+        color: #5a6f7f;
+    }
+
+    .clear-cart {
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid #e8ecf1;
+    }
+
+    .clear-cart button {
+        padding: 12px 24px;
+        background: #DA291C;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .clear-cart button:hover {
+        background: #c01815;
+    }
+
+    .cart-summary {
+        border: 1px solid #e8ecf1;
+        border-radius: 12px;
+        padding: 28px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 100px;
+    }
+
+    .cart-summary h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #001f3f;
+        margin: 0 0 24px 0;
+    }
+
+    .summary-line {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #f0f2f5;
+    }
+
+    .summary-line:last-of-type {
+        border-bottom: none;
+    }
+
+    .summary-line span {
+        color: #5a6f7f;
+        font-weight: 600;
+    }
+
+    .summary-line strong {
+        color: #001f3f;
+        font-weight: 700;
+    }
+
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 20px;
+        border-top: 2px solid #DA291C;
+        margin-bottom: 28px;
+    }
+
+    .summary-total span:first-child {
+        font-size: 18px;
+        font-weight: 700;
+        color: #001f3f;
+    }
+
+    .summary-total span:last-child {
+        font-size: 28px;
+        font-weight: 700;
+        color: #DA291C;
+    }
+
+    .submit-order-btn {
+        width: 100%;
+        padding: 16px;
+        background: #DA291C;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 12px rgba(218, 41, 28, 0.2);
+    }
+
+    .submit-order-btn:hover {
+        background: #c01815;
+        box-shadow: 0 6px 16px rgba(218, 41, 28, 0.3);
+    }
+
+    .continue-shopping {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .continue-shopping a {
+        color: #001f3f;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s;
+    }
+
+    .continue-shopping a:hover {
+        color: #DA291C;
+    }
+
+    @media (max-width: 768px) {
+        .cart-container {
+            padding: 30px 20px;
+        }
+
+        .cart-content {
+            grid-template-columns: 1fr;
+        }
+
+        .cart-summary {
+            position: static;
+        }
+    }
+</style>
+
+<div class="cart-container">
+    <div class="cart-header">
         <h2>Mon panier</h2>
-        <a href="/products" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; display: inline-block;">
-            ← Continuer les achats
-        </a>
+        <a href="/products">Continuer les achats</a>
     </div>
     
     <!-- Messages de succès/erreur -->
     <?php if (isset($message) && $message): ?>
-        <div style="padding: 15px; margin-bottom: 20px; border-radius: 4px; 
-                    background-color: <?= $messageType === 'success' ? '#d4edda' : '#f8d7da' ?>; 
-                    color: <?= $messageType === 'success' ? '#155724' : '#721c24' ?>; 
-                    border: 1px solid <?= $messageType === 'success' ? '#c3e6cb' : '#f5c6cb' ?>;">
-            <?= $messageType === 'success' ? '✅ ' : '❌ ' ?><?= htmlspecialchars($message) ?>
+        <div class="alert <?= $messageType === 'success' ? 'success' : 'error' ?> show">
+            <?= htmlspecialchars($message) ?>
         </div>
     <?php endif; ?>
     
     <?php if (empty($cartItems)): ?>
-        <div style="text-align: center; padding: 60px; background-color: #f8f9fa; border-radius: 8px;">
-            <div style="font-size: 64px; margin-bottom: 20px;">🛒</div>
-            <h3 style="color: #666; margin-bottom: 15px;">Votre panier est vide</h3>
-            <p style="color: #999; margin-bottom: 30px;">Ajoutez des produits à votre panier pour commencer vos achats.</p>
-            <a href="/products" style="padding: 12px 30px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold;">
-                Voir les produits
-            </a>
+        <div class="cart-empty">
+            <h3>Votre panier est vide</h3>
+            <p>Ajoutez des produits à votre panier pour commencer vos achats.</p>
+            <a href="/products">Voir les produits</a>
         </div>
     <?php else: ?>
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+        <div class="cart-content">
             <!-- Liste des articles -->
-            <div>
-                <h3 style="margin-bottom: 20px; color: #333;">Articles dans votre panier</h3>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <?php foreach ($cartItems as $item): ?>
-                        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: white; display: flex; gap: 20px;">
-                            <!-- Image du produit -->
-                            <div style="width: 120px; height: 120px; flex-shrink: 0;">
-                                <?php if (!empty($item['image_url'])): ?>
-                                    <img 
-                                        src="<?= htmlspecialchars($item['image_url']) ?>" 
-                                        alt="<?= htmlspecialchars($item['nom']) ?>" 
-                                        style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px; border: 1px solid #eee;"
-                                        onerror="this.style.display='none'"
-                                    >
-                                <?php else: ?>
-                                    <div style="width: 100%; height: 100%; background-color: #f8f9fa; border-radius: 4px; display: flex; align-items: center; justify-content: center; border: 1px solid #eee;">
-                                        <span style="color: #999; font-size: 12px;">Pas d'image</span>
-                                    </div>
-                                <?php endif; ?>
+            <div class="cart-items-section">
+                <h3>Articles dans votre panier</h3>
+                
+                <?php foreach ($cartItems as $item): ?>
+                    <div class="cart-item">
+                        <!-- Image du produit -->
+                        <div class="cart-item-image">
+                            <?php if (!empty($item['image_url'])): ?>
+                                <img 
+                                    src="<?= htmlspecialchars($item['image_url']) ?>" 
+                                    alt="<?= htmlspecialchars($item['nom']) ?>"
+                                    onerror="this.style.display='none'"
+                                >
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Informations du produit -->
+                        <div class="cart-item-content">
+                            <h4 class="cart-item-title">
+                                <a href="/products/show?id=<?= htmlspecialchars($item['id']) ?>">
+                                    <?= htmlspecialchars($item['nom']) ?>
+                                </a>
+                            </h4>
+                            
+                            <?php if (!empty($item['categorie_nom'])): ?>
+                                <div class="cart-item-category"><?= htmlspecialchars($item['categorie_nom']) ?></div>
+                            <?php endif; ?>
+                            
+                            <div class="cart-item-price">
+                                <?= number_format((float)$item['prix'], 2, ',', ' ') ?> €
                             </div>
                             
-                            <!-- Informations du produit -->
-                            <div style="flex: 1;">
-                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 18px;">
-                                    <a href="/products/show?id=<?= htmlspecialchars($item['id']) ?>" style="color: #333; text-decoration: none;">
-                                        <?= htmlspecialchars($item['nom']) ?>
-                                    </a>
-                                </h4>
+                            <!-- Gestion de la quantité -->
+                            <div class="cart-item-controls">
+                                <form method="POST" action="/cart/update" class="quantity-form">
+                                    <input type="hidden" name="cart_id" value="<?= htmlspecialchars($item['panier_id']) ?>">
+                                    <label for="quantite_<?= htmlspecialchars($item['panier_id']) ?>">Quantité :</label>
+                                    <input 
+                                        type="number" 
+                                        id="quantite_<?= htmlspecialchars($item['panier_id']) ?>" 
+                                        name="quantite" 
+                                        value="<?= htmlspecialchars($item['quantite']) ?>" 
+                                        min="1" 
+                                        max="<?= htmlspecialchars($item['stock']) ?>"
+                                        required
+                                    >
+                                    <button type="submit">Mettre à jour</button>
+                                </form>
                                 
-                                <?php if (!empty($item['categorie_nom'])): ?>
-                                    <div style="margin-bottom: 10px;">
-                                        <span style="font-size: 12px; color: #666;">📁 <?= htmlspecialchars($item['categorie_nom']) ?></span>
-                                    </div>
-                                <?php endif; ?>
-                                
-                                <div style="font-size: 20px; font-weight: bold; color: #007bff; margin-bottom: 15px;">
-                                    <?= number_format((float)$item['prix'], 2, ',', ' ') ?> €
-                                </div>
-                                
-                                <!-- Gestion de la quantité -->
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <form method="POST" action="/cart/update" style="display: flex; align-items: center; gap: 10px;">
-                                        <input type="hidden" name="cart_id" value="<?= htmlspecialchars($item['panier_id']) ?>">
-                                        <label for="quantite_<?= htmlspecialchars($item['panier_id']) ?>" style="font-size: 14px; color: #666;">Quantité :</label>
-                                        <input 
-                                            type="number" 
-                                            id="quantite_<?= htmlspecialchars($item['panier_id']) ?>" 
-                                            name="quantite" 
-                                            value="<?= htmlspecialchars($item['quantite']) ?>" 
-                                            min="1" 
-                                            max="<?= htmlspecialchars($item['stock']) ?>"
-                                            style="width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;"
-                                            required
-                                        >
-                                        <button 
-                                            type="submit" 
-                                            style="padding: 5px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;"
-                                        >
-                                            Mettre à jour
-                                        </button>
-                                    </form>
-                                    
-                                    <form method="POST" action="/cart/remove" style="margin: 0;">
-                                        <input type="hidden" name="cart_id" value="<?= htmlspecialchars($item['panier_id']) ?>">
-                                        <button 
-                                            type="submit" 
-                                            style="padding: 5px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;"
-                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')"
-                                        >
-                                            🗑️ Supprimer
-                                        </button>
-                                    </form>
-                                </div>
-                                
-                                <div style="margin-top: 10px; font-size: 14px; color: #666;">
-                                    Sous-total : <strong><?= number_format((float)$item['prix'] * (int)$item['quantite'], 2, ',', ' ') ?> €</strong>
-                                </div>
+                                <form method="POST" action="/cart/remove" class="remove-form">
+                                    <input type="hidden" name="cart_id" value="<?= htmlspecialchars($item['panier_id']) ?>">
+                                    <button 
+                                        type="submit" 
+                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')"
+                                    >
+                                        Supprimer
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <div class="cart-item-subtotal">
+                                Sous-total: <strong><?= number_format((float)$item['prix'] * (int)$item['quantite'], 2, ',', ' ') ?> €</strong>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+                    </div>
+                <?php endforeach; ?>
                 
                 <!-- Bouton vider le panier -->
-                <div style="margin-top: 20px;">
+                <div class="clear-cart">
                     <form method="POST" action="/cart/clear">
                         <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id) ?>">
                         <button 
                             type="submit" 
-                            style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;"
                             onclick="return confirm('Êtes-vous sûr de vouloir vider tout votre panier ?')"
                         >
-                            🗑️ Vider le panier
+                            Vider le panier
                         </button>
                     </form>
                 </div>
             </div>
             
             <!-- Résumé de la commande -->
-            <div>
-                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: white; position: sticky; top: 20px;">
-                    <h3 style="margin: 0 0 20px 0; color: #333; font-size: 20px;">Résumé de la commande</h3>
-                    
-                    <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: #666;">Sous-total :</span>
-                            <span style="font-weight: bold;"><?= number_format((float)$total, 2, ',', ' ') ?> €</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: #666;">Frais de livraison :</span>
-                            <span style="font-weight: bold;">Gratuit</span>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 30px; padding-top: 20px; border-top: 2px solid #007bff;">
-                        <span style="font-size: 20px; font-weight: bold; color: #333;">Total :</span>
-                        <span style="font-size: 24px; font-weight: bold; color: #007bff;"><?= number_format((float)$total, 2, ',', ' ') ?> €</span>
-                    </div>
-                    
-                    <form method="POST" action="/orders/create">
-                        <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id) ?>">
-                        <button 
-                            type="submit" 
-                            style="width: 100%; padding: 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 18px; font-weight: bold;"
-                        >
-                            ✅ Valider la commande
-                        </button>
-                    </form>
-                    
-                    <div style="margin-top: 15px; text-align: center;">
-                        <a href="/products" style="color: #007bff; text-decoration: none; font-size: 14px;">
-                            ← Continuer les achats
-                        </a>
-                    </div>
+            <div class="cart-summary">
+                <h3>Résumé de la commande</h3>
+                
+                <div class="summary-line">
+                    <span>Sous-total :</span>
+                    <strong><?= number_format((float)$total, 2, ',', ' ') ?> €</strong>
+                </div>
+                
+                <div class="summary-line">
+                    <span>Frais de livraison :</span>
+                    <strong>Gratuit</strong>
+                </div>
+                
+                <div class="summary-total">
+                    <span>Total :</span>
+                    <span><?= number_format((float)$total, 2, ',', ' ') ?> €</span>
+                </div>
+                
+                <form method="POST" action="/orders/create">
+                    <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id) ?>">
+                    <button type="submit" class="submit-order-btn">Valider la commande</button>
+                </form>
+                
+                <div class="continue-shopping">
+                    <a href="/products">Continuer les achats</a>
                 </div>
             </div>
         </div>

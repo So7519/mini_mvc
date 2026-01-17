@@ -11,6 +11,7 @@ class User
     private $id;
     private $nom;
     private $email;
+    private $password;
 
     // =====================
     // Getters / Setters
@@ -44,6 +45,16 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     // =====================
@@ -96,6 +107,35 @@ class User
         $pdo = Database::getPDO();
         $stmt = $pdo->prepare("INSERT INTO user (nom, email) VALUES (?, ?)");
         return $stmt->execute([$this->nom, $this->email]);
+    }
+
+    /**
+     * Crée un nouvel utilisateur avec mot de passe
+     * @return bool
+     */
+    public function saveWithPassword()
+    {
+        $pdo = Database::getPDO();
+        $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("INSERT INTO user (nom, email, password) VALUES (?, ?, ?)");
+        return $stmt->execute([$this->nom, $this->email, $hashedPassword]);
+    }
+
+    /**
+     * Authentifie un utilisateur
+     * @param string $email
+     * @param string $password
+     * @return array|null
+     */
+    public static function authenticate($email, $password)
+    {
+        $user = self::findByEmail($email);
+        
+        if ($user && isset($user['password']) && password_verify($password, $user['password'])) {
+            return $user;
+        }
+        
+        return null;
     }
 
     /**

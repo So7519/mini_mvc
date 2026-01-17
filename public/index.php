@@ -29,6 +29,13 @@ $routes = [
     ['GET', '/orders/show', [Mini\Controllers\OrderController::class, 'show']],
     ['POST', '/orders/create', [Mini\Controllers\OrderController::class, 'create']],
     ['POST', '/orders/update-status', [Mini\Controllers\OrderController::class, 'updateStatus']],
+    // Routes profil
+    ['GET', '/profile', [Mini\Controllers\ProfileController::class, 'show']],
+    ['GET', '/profile/register', [Mini\Controllers\ProfileController::class, 'register']],
+    // Routes API authentification
+    ['POST', '/api/login', [Mini\Controllers\AuthController::class, 'login']],
+    ['POST', '/api/register', [Mini\Controllers\AuthController::class, 'register']],
+    ['POST', '/api/logout', [Mini\Controllers\AuthController::class, 'logout']],
 ];
 // Bootstrap du router
 $router = new Router($routes);
